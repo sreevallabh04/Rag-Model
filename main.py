@@ -7,11 +7,12 @@ from gemini_rag import build_enhanced_prompt, ask_smart_llm, analyze_document_co
 
 # Enhanced page configuration
 st.set_page_config(
-    page_title="Smart RAG Assistant", 
+    page_title="RAG Assistant by Sreevallabh kakarala", 
+    page_icon="🧠",
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        'About': "Smart RAG Assistant - Local AI-powered document Q&A with chat memory"
+        'About': "RAG Assistant - Intelligent Document Analysis System\nDeveloped by Sreevallabh kakarala\nPowered by Local AI (Mistral) and Advanced Vector Search"
     }
 )
 
@@ -19,37 +20,157 @@ st.set_page_config(
 st.markdown("""
 <style>
     .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #1e88e5;
+        font-size: 2.8rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         text-align: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+    
+    .subtitle {
+        font-size: 1.2rem;
+        color: #6c757d;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        font-style: italic;
+    }
+    
+    .creator-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 25px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 1rem auto;
+        width: fit-content;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+    
     .chat-message {
         padding: 1rem;
-        border-radius: 10px;
+        border-radius: 15px;
         margin: 0.5rem 0;
-        border-left: 4px solid #1e88e5;
+        border-left: 4px solid #667eea;
+        color: #2c3e50 !important;
+        font-weight: 500;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
     }
+    
+    .chat-message:hover {
+        transform: translateY(-2px);
+    }
+    
     .user-message {
-        background-color: #e3f2fd;
-        border-left-color: #1e88e5;
+        background: linear-gradient(135deg, #e8f4fd 0%, #d6eaff 100%);
+        border-left-color: #667eea;
+        color: #1565c0 !important;
     }
+    
     .assistant-message {
-        background-color: #f5f5f5;
-        border-left-color: #4caf50;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-left-color: #28a745;
+        color: #2c3e50 !important;
+        border: 1px solid #dee2e6;
     }
-    .sidebar-info {
-        background-color: #f0f8ff;
-        padding: 1rem;
-        border-radius: 5px;
+    
+    .feature-card {
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        padding: 1.5rem;
+        border-radius: 15px;
         margin: 1rem 0;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+    
+    .status-success {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        color: #155724;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        border-left: 4px solid #28a745;
+    }
+    
+    .status-warning {
+        background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+        color: #856404;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        border-left: 4px solid #ffc107;
+    }
+    
+    /* Ensure all text in chat messages is visible */
+    .chat-message strong {
+        color: #212529 !important;
+        font-weight: 700;
+    }
+    
+    /* Fix any white text issues */
+    .chat-message * {
+        color: inherit !important;
+    }
+    
+    /* Override Streamlit's default styles that might cause white text */
+    div[data-testid="stMarkdown"] p {
+        color: #2c3e50 !important;
+    }
+    
+    /* Ensure text is visible in all containers */
+    .stMarkdown, .stText, .element-container {
+        color: #2c3e50 !important;
+    }
+    
+    /* Force dark text in all markdown content */
+    .stMarkdown * {
+        color: #2c3e50 !important;
+    }
+    
+    /* Specifically target the response areas */
+    div[data-testid="column"] div[data-testid="stMarkdown"] {
+        color: #2c3e50 !important;
+    }
+    
+    /* Professional button styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+    
+    /* Footer styling */
+    .footer {
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        margin-top: 2rem;
+        border: 1px solid #dee2e6;
     }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<h1 class="main-header">🧠 Smart RAG Assistant</h1>', unsafe_allow_html=True)
-st.markdown("### AI-Powered Document Q&A with Chat Memory")
+# Professional Header
+st.markdown('<h1 class="main-header">🧠 Intelligent RAG Assistant</h1>', unsafe_allow_html=True)
+st.markdown('<p class="subtitle">Advanced Document Analysis & Q&A System</p>', unsafe_allow_html=True)
+st.markdown('''
+<div class="creator-badge">
+    ✨ Developed by <strong>Sreevallabh kakarala</strong> ✨
+</div>
+''', unsafe_allow_html=True)
 
 # Sidebar for system status and controls
 with st.sidebar:
@@ -197,14 +318,14 @@ with col1:
             st.markdown("### Conversation History")
             for i, (question, answer) in enumerate(st.session_state['chat_history']):
                 st.markdown(f"""
-                <div class="chat-message user-message">
-                    <strong>🙋 You:</strong> {question}
+                <div class="chat-message user-message" style="color: #1565c0 !important;">
+                    <strong style="color: #0d47a1 !important;">🙋 You:</strong> <span style="color: #1565c0 !important;">{question}</span>
                 </div>
                 """, unsafe_allow_html=True)
                 
                 st.markdown(f"""
-                <div class="chat-message assistant-message">
-                    <strong>🤖 Assistant:</strong> {answer}
+                <div class="chat-message assistant-message" style="color: #2c3e50 !important;">
+                    <strong style="color: #1b5e20 !important;">🤖 Assistant:</strong> <span style="color: #2c3e50 !important;">{answer}</span>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -293,14 +414,14 @@ with col1:
                     # Display the new answer
                     st.markdown("### 🎯 Latest Response")
                     st.markdown(f"""
-                    <div class="chat-message user-message">
-                        <strong>🙋 You:</strong> {question}
+                    <div class="chat-message user-message" style="color: #1565c0 !important;">
+                        <strong style="color: #0d47a1 !important;">🙋 You:</strong> <span style="color: #1565c0 !important;">{question}</span>
                     </div>
                     """, unsafe_allow_html=True)
                     
                     st.markdown(f"""
-                    <div class="chat-message assistant-message">
-                        <strong>🤖 Assistant:</strong> {answer}
+                    <div class="chat-message assistant-message" style="color: #2c3e50 !important;">
+                        <strong style="color: #1b5e20 !important;">🤖 Assistant:</strong> <span style="color: #2c3e50 !important;">{answer}</span>
                     </div>
                     """, unsafe_allow_html=True)
                     
@@ -359,17 +480,39 @@ with col2:
                     mime="text/plain"
                 )
 
-# Footer
-st.divider()
-st.markdown("""
-### 🚀 **Enhanced Features Active:**
-- 🧠 **Smart AI Responses** with conversation memory
-- 🔍 **Advanced Search** with re-ranking and metadata
-- 💬 **Chat Interface** with persistent history
-- 📊 **Document Analysis** with content insights
-- 🎯 **Context-Aware** answers using conversation history
-- 🔒 **100% Local** - Your data stays private
-""")
+# Professional Footer
+st.markdown('''
+<div class="footer">
+    <h3 style="margin-bottom: 1rem; color: #495057;">🚀 Production-Ready Features</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+        <div class="feature-card">
+            <h4>🧠 AI-Powered Analysis</h4>
+            <p>Advanced Mistral LLM with conversation memory and context awareness</p>
+        </div>
+        <div class="feature-card">
+            <h4>🔍 Smart Search</h4>
+            <p>Vector-based similarity search with FAISS indexing and re-ranking</p>
+        </div>
+        <div class="feature-card">
+            <h4>📊 Document Intelligence</h4>
+            <p>Automatic content analysis, metadata extraction, and type detection</p>
+        </div>
+        <div class="feature-card">
+            <h4>🔒 Privacy First</h4>
+            <p>100% local processing - your data never leaves your machine</p>
+        </div>
+    </div>
+    <hr style="margin: 1.5rem 0; border: 1px solid #dee2e6;">
+    <p style="margin-bottom: 0.5rem; font-weight: 600; color: #495057;">
+        ⚡ Intelligent RAG Assistant v2.0
+    </p>
+    <p style="margin-bottom: 0; color: #6c757d; font-size: 0.9rem;">
+        Developed with ❤️ by <strong>Sreevallabh kakarala</strong> | 
+        Powered by Mistral AI & Advanced Vector Search | 
+        © 2024 All Rights Reserved
+    </p>
+</div>
+''', unsafe_allow_html=True)
 
 if not st.session_state['file_uploaded']:
     st.info("👆 Upload a document to start chatting with your AI assistant!")
