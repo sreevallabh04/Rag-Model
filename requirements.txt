@@ -1,0 +1,15 @@
+# Core dependencies for Smart RAG System
+streamlit>=1.28.0
+PyMuPDF>=1.23.0  # fitz for PDF processing
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+python-dotenv>=1.0.0
+
+# OCR support (optional)
+pytesseract>=0.3.10
+Pillow>=10.0.0
+opencv-python>=4.8.0
+
+# Additional utilities
+numpy>=1.24.0
+requests>=2.31.0 
