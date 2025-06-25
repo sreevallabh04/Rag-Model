@@ -1,0 +1,41 @@
+# Azure Container Instances Deployment
+# Intelligent RAG Assistant
+# Author: Sreevallabh kakarala
+
+apiVersion: 2021-10-01
+location: eastus
+name: rag-assistant-aci
+properties:
+  containers:
+  - name: rag-assistant
+    properties:
+      image: ragassistant:latest
+      resources:
+        requests:
+          cpu: 2.0
+          memoryInGb: 8.0
+      ports:
+      - protocol: tcp
+        port: 8501
+      environmentVariables:
+      - name: ENVIRONMENT
+        value: production
+      - name: STREAMLIT_SERVER_HEADLESS
+        value: true
+      - name: STREAMLIT_SERVER_PORT
+        value: 8501
+      - name: STREAMLIT_SERVER_ADDRESS
+        value: 0.0.0.0
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Public
+    ports:
+    - protocol: tcp
+      port: 8501
+    dnsNameLabel: rag-assistant-sreevallabh
+  sku: Standard
+tags:
+  environment: production
+  project: intelligent-rag-assistant
+  author: sreevallabh-kakarala 

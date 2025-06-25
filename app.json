@@ -1,0 +1,41 @@
+{
+  "name": "Intelligent RAG Assistant",
+  "description": "Enterprise-grade document analysis and Q&A system powered by local AI",
+  "repository": "https://github.com/sreevallabh04/intelligent-rag-assistant",
+  "logo": "https://cdn-icons-png.flaticon.com/512/4712/4712027.png",
+  "keywords": [
+    "ai",
+    "rag",
+    "document-analysis",
+    "streamlit",
+    "mistral",
+    "nlp",
+    "machine-learning"
+  ],
+  "stack": "heroku-20",
+  "env": {
+    "ENVIRONMENT": {
+      "description": "Application environment",
+      "value": "production"
+    },
+    "STREAMLIT_SERVER_HEADLESS": {
+      "description": "Run Streamlit in headless mode",
+      "value": "true"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "standard-2x"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "addons": [],
+  "scripts": {
+    "postdeploy": "echo 'RAG Assistant deployed successfully by Sreevallabh kakarala'"
+  }
+} 
